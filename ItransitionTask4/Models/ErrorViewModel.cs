@@ -1,4 +1,3 @@
-using System;
 
 namespace ItransitionTask4.Models
 {

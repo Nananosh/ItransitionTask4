@@ -19,17 +19,22 @@ namespace ItransitionTask4.Models
             UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
-            //var user1 = await userManager.GetUserAsync(httpContext.User);
-
             if (!string.IsNullOrEmpty(httpContext.User.Identity.Name))
             {
                 var user = await userManager.FindByNameAsync(httpContext.User.Identity.Name);
-
-                if (user.LockoutEnd > DateTimeOffset.Now)
+                if (user != null)
                 {
-                    //Log the user out and redirect back to homepage
+                    if (user.LockoutEnd > DateTimeOffset.Now)
+                    {
+                        //Log the user out and redirect back to homepage
+                        await signInManager.SignOutAsync();
+                        httpContext.Response.Redirect("/Account/Login");
+                    }
+                }
+                else
+                {
                     await signInManager.SignOutAsync();
-                    httpContext.Response.Redirect("/");
+                    httpContext.Response.Redirect("/Account/Register");
                 }
             }
             await _next(httpContext);

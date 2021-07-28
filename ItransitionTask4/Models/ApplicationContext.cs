@@ -1,7 +1,14 @@
-﻿namespace ItransitionTask4.Models
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace ItransitionTask4.Models
 {
-    public class ApplicationContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
-        
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
+        {
+            
+        }
     }
 }
